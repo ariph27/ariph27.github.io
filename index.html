@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ximllo | Coming Soon</title>
+<meta name="description" content="Ximllo - XimlloTech dan XimlloCloud. Akan datang tidak lama lagi.">
+<style>
+  :root { --red:#e10600; --red-dark:#a30400; --black:#0a0a0a; --gray:#1a1a1a; --white:#fff; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+    background: var(--black); color: var(--white);
+    min-height:100vh; display:flex; flex-direction:column; overflow-x:hidden;
+    background-image:
+      radial-gradient(circle at 15% 10%, rgba(225,6,0,.25), transparent 40%),
+      radial-gradient(circle at 85% 90%, rgba(225,6,0,.18), transparent 40%);
+  }
+  body::before {
+    content:""; position:fixed; inset:0; pointer-events:none;
+    background-image: linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size:48px 48px;
+  }
+  header, main, footer { position:relative; z-index:1; }
+  header { padding:28px 6vw; }
+  .logo { font-size:1.7rem; font-weight:800; letter-spacing:2px; }
+  .logo span { color:var(--red); }
+  main { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:40px 6vw; }
+  .badge {
+    border:1px solid var(--red); color:var(--red); padding:6px 16px; border-radius:999px;
+    font-size:.8rem; letter-spacing:3px; text-transform:uppercase; margin-bottom:24px;
+  }
+  h1 { font-size:clamp(2.6rem, 8vw, 5.5rem); line-height:1.05; font-weight:900; }
+  h1 em { font-style:normal; color:var(--red); }
+  .sub { max-width:560px; margin:22px auto 40px; color:#bbb; font-size:1.1rem; line-height:1.6; }
+  .countdown { display:flex; gap:14px; flex-wrap:wrap; justify-content:center; margin-bottom:48px; }
+  .box { background:var(--gray); border:1px solid #2a2a2a; border-top:3px solid var(--red); border-radius:10px; padding:16px 0; width:92px; }
+  .box b { display:block; font-size:2rem; }
+  .box small { color:#888; font-size:.7rem; letter-spacing:2px; text-transform:uppercase; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:20px; width:100%; max-width:760px; margin-bottom:48px; }
+  .card { background:var(--gray); border:1px solid #2a2a2a; border-radius:14px; padding:28px; text-align:left; transition:.25s; }
+  .card:hover { transform:translateY(-4px); border-color:var(--red); }
+  .card h3 { font-size:1.4rem; margin-bottom:8px; }
+  .card h3 span { color:var(--red); }
+  .card p { color:#aaa; line-height:1.5; font-size:.95rem; }
+  .card.light { background:var(--white); color:var(--black); }
+  .card.light p { color:#444; }
+  form { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; width:100%; max-width:480px; }
+  input { flex:1; min-width:200px; padding:14px 18px; border-radius:8px; border:1px solid #333; background:#111; color:var(--white); font-size:1rem; }
+  input:focus { outline:none; border-color:var(--red); }
+  button { padding:14px 26px; border:0; border-radius:8px; background:var(--red); color:var(--white); font-weight:700; font-size:1rem; cursor:pointer; transition:.2s; }
+  button:hover { background:var(--red-dark); }
+  #msg { margin-top:14px; min-height:1.3em; color:#bbb; font-size:.9rem; }
+  footer { text-align:center; padding:24px; color:#666; font-size:.85rem; border-top:1px solid #1f1f1f; }
+</style>
+</head>
+<body>
+<header><div class="logo">XIM<span>LLO</span></div></header>
+
+<main>
+  <div class="badge">Coming Soon</div>
+  <h1>Sesuatu yang <em>hebat</em><br>sedang dibina.</h1>
+  <p class="sub">Ximllo bakal hadir dengan penyelesaian teknologi dan cloud untuk perniagaan anda. Nantikan pelancaran kami.</p>
+
+  <div class="countdown" id="countdown">
+    <div class="box"><b id="d">00</b><small>Hari</small></div>
+    <div class="box"><b id="h">00</b><small>Jam</small></div>
+    <div class="box"><b id="m">00</b><small>Minit</small></div>
+    <div class="box"><b id="s">00</b><small>Saat</small></div>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <h3>Ximllo<span>Tech</span></h3>
+      <p>Pembangunan web, aplikasi dan penyelesaian teknologi tersuai untuk memajukan perniagaan anda.</p>
+    </div>
+    <div class="card light">
+      <h3>Ximllo<span>Cloud</span></h3>
+      <p>Hosting dan perkhidmatan cloud yang pantas, selamat dan boleh dipercayai.</p>
+    </div>
+  </div>
+
+  <form id="form">
+    <input type="email" id="email" placeholder="Masukkan emel anda" required>
+    <button type="submit">Maklumkan Saya</button>
+  </form>
+  <div id="msg"></div>
+</main>
+
+<footer>&copy; <span id="yr"></span> Ximllo. Hak cipta terpelihara.</footer>
+
+<script>
+  // Tukar tarikh pelancaran di sini
+  const launch = new Date();
+  launch.setDate(launch.getDate() + 30);
+
+  const pad = n => String(n).padStart(2, "0");
+  function tick() {
+    let diff = Math.max(0, launch - new Date());
+    const s = Math.floor(diff / 1000);
+    d.textContent = pad(Math.floor(s / 86400));
+    h.textContent = pad(Math.floor(s % 86400 / 3600));
+    m.textContent = pad(Math.floor(s % 3600 / 60));
+    document.getElementById("s").textContent = pad(s % 60);
+  }
+  tick(); setInterval(tick, 1000);
+
+  document.getElementById("yr").textContent = new Date().getFullYear();
+  document.getElementById("form").addEventListener("submit", e => {
+    e.preventDefault();
+    document.getElementById("msg").textContent = "Terima kasih! Kami akan maklumkan apabila kami melancarkan.";
+    e.target.reset();
+  });
+</script>
+</body>
+</html>
